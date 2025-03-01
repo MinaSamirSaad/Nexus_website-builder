@@ -3,26 +3,27 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-                protocol: 'http',
+                protocol: 'https',
                 hostname: 'uploadthing.com',
             },
             {
-                protocol: 'http',
+                protocol: 'https',
                 hostname: 'utfs.io',
             },
             {
-                protocol: 'http',
+                protocol: 'https',
                 hostname: 'img.clerk.com',
             },
             {
-                protocol: 'http',
+                protocol: 'https',
                 hostname: 'subdomain',
             },
             {
-                protocol: 'http',
+                protocol: 'https',
                 hostname: 'files.stripe.com',
             },
         ],
+        dangerouslyAllowSVG: true,
     },
     reactStrictMode: false,
 };

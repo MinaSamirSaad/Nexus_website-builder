@@ -11,15 +11,12 @@ export default clerkMiddleware((auth, req) => {
   const hostname = req.headers
   const pathWithSearchParams = `${url.pathname}${searchParams.length > 0 ? `?${searchParams}` : ''
     }`
-  console.log('--------------------', hostname.get('host'))
-  console.log('--------------------', req.url)
 
   //if subdomain exists
   const customSubDomain = hostname
     .get('host')
     ?.split(`${process.env.NEXT_PUBLIC_DOMAIN}`)
     .filter(Boolean)[0]
-  console.log('--------------------', customSubDomain)
 
   if (customSubDomain) {
     return NextResponse.rewrite(
