@@ -1,3 +1,5 @@
+import BlurPage from '@/components/global/blur-page';
+import InfoBar from '@/components/global/infobar';
 import Sidebar from '@/components/sidebar';
 import Unauthorized from '@/components/unauthorized';
 import { getNotificationAndUser, verifyAndAcceptInvitation } from '@/lib/queries';
@@ -19,11 +21,19 @@ export default async function layout({ children, params }: Props) {
 
     if (user.privateMetadata.role !== 'AGENCY_ADMIN' && user.privateMetadata.role !== 'AGENCY_OWNER') return <Unauthorized />
     let allNotifications: any = [];
-    const notifications = getNotificationAndUser(agencyId);
+    const notifications = await getNotificationAndUser(agencyId);
     if (notifications) allNotifications = notifications;
 
     return <div className='h-screen overflow-hidden'>
         <Sidebar id={agencyId} type='agency' />
-        <div className='md:pl-[300px]'>{children}</div>
+        <div className='md:pl-[350px]'>
+            <InfoBar notifications={allNotifications} />
+            <div className='relative'>
+                <BlurPage>
+                    {children}
+                </BlurPage>
+            </div>
+
+        </div>
     </div>
 }
