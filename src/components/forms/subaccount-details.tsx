@@ -179,7 +179,6 @@ const SubAccountDetails = ({ agencyDetails, data, userId, userName }: Props) => 
                                         <FormLabel>Account Email</FormLabel>
                                         <FormControl>
                                             <Input
-                                                readOnly
                                                 placeholder="Email"
                                                 {...field}
                                             />

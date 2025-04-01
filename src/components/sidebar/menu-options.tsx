@@ -16,6 +16,7 @@ import SubAccountDetails from '../forms/subaccount-details';
 import AgencyDetails from '../forms/agency-details';
 import { Separator } from '../ui/separator';
 import { icons } from '@/lib/constants';
+import MenuLink from '../menu-options-link';
 
 interface IProps {
     defaultOpen?: boolean;
@@ -214,12 +215,7 @@ export default function MenuOptions({ details, id, sideBarLogo, sidebarOpt, subA
                                                 if (result) {
                                                     val = <result.path />;
                                                 }
-                                                return (<CommandItem key={opt.id} className='md:w-[320px] w-full'>
-                                                    <Link href={opt.link} className='flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]'>
-                                                        {val}
-                                                        <span>{opt.name}</span>
-                                                    </Link>
-                                                </CommandItem>)
+                                                return (<MenuLink opt={opt} val={val} key={opt.id} />);
                                             }
                                         )
                                     }
