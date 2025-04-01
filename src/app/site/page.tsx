@@ -13,16 +13,16 @@ export default function Home() {
         </div>
         <p className="text-center">Run your agency, in one place</p>
         <div className="bg-gradient-to-r from-primary to-secondary-foreground text-transparent bg-clip-text relative">
-          <h1 className="text-9xl font-bold text-center md:text-[300px]">
-            Plura
+          <h1 className="text-9xl font-bold text-center md:text-[15rem]">
+            Nexus
           </h1>
         </div>
-        <div className="flex items-center justify-center relative md:mt-[-70px]">
+        <div className="flex items-center justify-center relative md:mt-[-35px]">
           <Image src="/assets/preview.png" alt="banner image" width={1200} height={1200} className="rounded-tl-2xl rounded-tr-2xl border-muted" />
         </div>
         <div className="bottom-0 top-[50%] bg-gradient-to-t dark:from-background left-0 right-0 absolute z-10"></div>
       </section>
-      <section className="flex justify-center items-center flex-col gap-4 md:!mt-48 ">
+      <section className="flex justify-center items-center flex-col gap-4 md:!mt-32 ">
         <h2 className="text-4xl text-center"> Choose what fits your right</h2>
         <p className="text-muted-foreground text-center">
           Our straightforward pricing plans are tailored to meet your needs. If

@@ -8,8 +8,11 @@ import { Toaster } from "@/components/ui/toaster";
 const font = DM_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Plura",
+  title: "Nexus",
   description: "All in one Agency Solution",
+  icons: {
+    icon: "/favicon.ico",
+  }
 };
 
 export default function RootLayout({
