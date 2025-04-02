@@ -268,7 +268,7 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
                                 <div className='flex flex-col gap-4'>
                                     {subAccounts?.map((subAccount) => {
                                         const subAccountPermissionDetails = subAccountPermission?.Permissions.find((permission) => permission.subAccountId === subAccount.id);
-                                        return (<div key={subAccount.id} className='flex flex-col items-center justify-between rounded-lg border p-4'>
+                                        return (<div key={subAccount.id} className='flex items-center justify-between rounded-lg border p-4'>
                                             <div>
                                                 <p>{subAccount.name}</p>
                                             </div>
