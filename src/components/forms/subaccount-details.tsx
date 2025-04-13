@@ -53,7 +53,7 @@ const FormSchema = z.object({
     subAccountLogo: z.string().min(1),
 })
 
-const SubAccountDetails = ({ agencyDetails, data, userId, userName }: Props) => {
+const SubAccountDetails = ({ agencyDetails, data, userName }: Props) => {
     const { toast } = useToast()
     const { setClose } = useModal();
     const router = useRouter()

@@ -30,6 +30,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from '../ui/command'
 import { cn } from '@/lib/utils'
 import Loading from '../global/loading'
@@ -91,10 +92,11 @@ const TicketForm = ({ laneId, subaccountId, getNewTicket }: Props) => {
           defaultData.ticket?.Customer?.name
         )
         setContactList(response)
+        console.log(response)
       }
       fetchData()
     }
-  }, [defaultData])
+  }, [defaultData, form])
 
   const onSubmit = async (values: z.infer<typeof TicketFormSchema>) => {
     if (!laneId) return
@@ -251,8 +253,8 @@ const TicketForm = ({ laneId, subaccountId, getNewTicket }: Props) => {
             <FormLabel>Customer</FormLabel>
             <Popover>
               <PopoverTrigger
-                asChild
                 className='w-full'
+                asChild
               >
                 <Button
                   variant="outline"
@@ -284,28 +286,30 @@ const TicketForm = ({ laneId, subaccountId, getNewTicket }: Props) => {
                       }, 1000)
                     }}
                   />
-                  <CommandEmpty>No Customer found.</CommandEmpty>
-                  <CommandGroup>
-                    {contactList.map((c) => (
-                      <CommandItem
-                        key={c.id}
-                        value={c.id}
-                        onSelect={(currentValue) => {
-                          setContact(
-                            currentValue === contact ? '' : currentValue
-                          )
-                        }}
-                      >
-                        {c.name}
-                        <CheckIcon
-                          className={cn(
-                            'ml-auto h-4 w-4',
-                            contact === c.id ? 'opacity-100' : 'opacity-0'
-                          )}
-                        />
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
+                  <CommandList>
+                    <CommandEmpty>No Customer found.</CommandEmpty>
+                    <CommandGroup>
+                      {contactList?.map((c) => (
+                        <CommandItem
+                          key={c.id}
+                          value={c.id}
+                          onSelect={(currentValue) => {
+                            setContact(
+                              currentValue === contact ? '' : currentValue
+                            )
+                          }}
+                        >
+                          {c.name}
+                          <CheckIcon
+                            className={cn(
+                              'ml-auto h-4 w-4',
+                              contact === c.id ? 'opacity-100' : 'opacity-0'
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
                 </Command>
               </PopoverContent>
             </Popover>
