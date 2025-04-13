@@ -11,9 +11,11 @@ import FileUpload from '../global/file-upload'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { useToast } from '@/hooks/use-toast'
+import Loading from '../global/loading'
 
 type Props = {
   subaccountId: string
+  setClose: () => void
 }
 
 const formSchema = z.object({
@@ -21,7 +23,7 @@ const formSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
 })
 
-const UploadMediaForm = ({ subaccountId }: Props) => {
+const UploadMediaForm = ({ subaccountId, setClose }: Props) => {
   const { toast } = useToast()
   const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,6 +44,7 @@ const UploadMediaForm = ({ subaccountId }: Props) => {
         subaccountId
       })
       toast({ title: "success", description: "Uploaded media" })
+      setClose()
       router.refresh()
     } catch (error) {
       console.log(error)
@@ -50,6 +53,7 @@ const UploadMediaForm = ({ subaccountId }: Props) => {
         title: "Failed",
         description: "Could not uploaded media"
       })
+      setClose()
     }
 
   }
@@ -100,7 +104,7 @@ const UploadMediaForm = ({ subaccountId }: Props) => {
             type="submit"
             className="mt-4"
           >
-            Upload Media
+            {form.formState.isSubmitting ? <Loading /> : 'Upload Media'}
           </Button>
         </form>
       </Form>

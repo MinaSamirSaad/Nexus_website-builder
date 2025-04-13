@@ -13,7 +13,7 @@ const MenuLink = ({ opt, val }: { opt: AgencySidebarOption | SubAccountSidebarOp
         setMounted(true);
     }, []);
     if (!mounted) return null;
-    const isActiveClassName = pathname === opt.link && "bg-primary data-[selected='true']:bg-primary text-white data-[selected=true]:text-white font-bold";
+    const isActiveClassName = (opt.name === 'Dashboard' ? pathname === opt.link : pathname.startsWith(opt.link)) && "bg-primary data-[selected='true']:bg-primary text-white data-[selected=true]:text-white font-bold";
     return (
         <CommandItem className={twMerge('md:w-[320px] w-full', isActiveClassName)}>
             <Link href={opt.link} className='flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px] active:bg-transparent'>

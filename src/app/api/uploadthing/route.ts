@@ -8,6 +8,7 @@ export const { GET, POST } = createRouteHandler({ router: ourFileRouter })
 
 export async function DELETE(request: Request) {
     try {
+        console.log('DELETE request', request);
         const user = auth();
         if (!user) {
             throw new Error('Unauthorized');

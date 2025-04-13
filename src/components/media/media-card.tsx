@@ -95,16 +95,25 @@ const MediaCard = ({ file }: Props) => {
             className="bg-destructive hover:bg-destructive"
             onClick={async () => {
               setLoading(true)
-              const response = await deleteMedia(file.id)
-              await saveActivityLogsNotification({
-                agencyId: undefined,
-                description: `Deleted a media file | ${response?.name}`,
-                subaccountId: response.subAccountId,
-              })
-              toast({
-                title: 'Deleted File',
-                description: 'Successfully deleted the file',
-              })
+              try {
+                const response = await deleteMedia(file.id, file.link)
+                await saveActivityLogsNotification({
+                  agencyId: undefined,
+                  description: `Deleted a media file | ${response?.name}`,
+                  subaccountId: response.subAccountId,
+                })
+                toast({
+                  title: 'Deleted File',
+                  description: 'Successfully deleted the file',
+                })
+              } catch (error) {
+                console.log(error)
+                toast({
+                  variant: 'destructive',
+                  title: 'Failed',
+                  description: 'Could not delete the file please try again',
+                })
+              }
               setLoading(false)
               router.refresh()
             }}
