@@ -3,7 +3,7 @@
 import { clerkClient, currentUser } from "@clerk/nextjs/server"
 import { db } from "./db";
 import { redirect } from "next/navigation";
-import { Agency, Lane, Plan, Prisma, Role, SubAccount, Ticket, User } from "@prisma/client";
+import { Agency, Lane, Plan, Prisma, Role, SubAccount, Tag, Ticket, User } from "@prisma/client";
 import { v4 } from "uuid";
 import { CreateFunnelFormSchema, createMediaType } from "./types";
 import { z } from "zod";
@@ -749,6 +749,18 @@ export const getTagsForSubaccount = async (subaccountId: string) => {
     const response = await db.subAccount.findUnique({
         where: { id: subaccountId },
         select: { Tags: true },
+    })
+    return response
+}
+export const _getTicketsWithAllRelations = async (laneId: string) => {
+    const response = await db.ticket.findMany({
+        where: { laneId: laneId },
+        include: {
+            Assigned: true,
+            Customer: true,
+            Lane: true,
+            Tags: true,
+        },
     })
     return response
 }
