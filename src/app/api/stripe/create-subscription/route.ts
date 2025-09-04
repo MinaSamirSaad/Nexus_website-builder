@@ -41,13 +41,13 @@ export async function POST(req: Request) {
             },
             { price: priceId },
           ],
-          expand: ['latest_invoice.payment_intent'],
+          expand: ["latest_invoice.confirmation_secret"],
         }
       )
       return NextResponse.json({
         subscriptionId: subscription.id,
         //@ts-ignore
-        clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+        clientSecret: subscription.latest_invoice.confirmation_secret.client_secret,
       })
     } else {
       console.log('Createing a sub')
@@ -60,12 +60,12 @@ export async function POST(req: Request) {
         ],
         payment_behavior: 'default_incomplete',
         payment_settings: { save_default_payment_method: 'on_subscription' },
-        expand: ['latest_invoice.payment_intent'],
+        expand: ["latest_invoice.confirmation_secret"],
       })
       return NextResponse.json({
         subscriptionId: subscription.id,
         //@ts-ignore
-        clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+        clientSecret: subscription.latest_invoice.confirmation_secret.client_secret,
       })
     }
   } catch (error) {

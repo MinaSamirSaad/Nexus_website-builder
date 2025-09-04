@@ -32,6 +32,7 @@ export const subscriptionCreated = async (
       subscritiptionId: subscription.id,
       //@ts-ignore
       plan: subscription.plan.id,
+      price: String((subscription.items.data[0].price.unit_amount || 0) / 100),
     }
 
     await db.subscription.upsert({

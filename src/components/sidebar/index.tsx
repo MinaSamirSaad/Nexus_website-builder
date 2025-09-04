@@ -42,7 +42,7 @@ export default async function Sidebar({ id, type }: Props) {
             <MenuOptions
                 details={details}
                 id={id}
-                sideBarLogo={sideBarLogo}
+                sidebarLogo={sideBarLogo}
                 sidebarOpt={sidebarOpt}
                 subAccounts={subAccounts}
                 user={user}
@@ -51,7 +51,7 @@ export default async function Sidebar({ id, type }: Props) {
             <MenuOptions
                 details={details}
                 id={id}
-                sideBarLogo={sideBarLogo}
+                sidebarLogo={sideBarLogo}
                 sidebarOpt={sidebarOpt}
                 subAccounts={subAccounts}
                 user={user}

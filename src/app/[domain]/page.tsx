@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Domin = () => {
+const Domain = () => {
     return (
-        <div>Domin</div>
+        <div>Domain</div>
     )
 }
 
-export default Domin
+export default Domain

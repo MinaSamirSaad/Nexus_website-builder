@@ -2,6 +2,7 @@ import AgencyDetails from '@/components/forms/agency-details'
 import UserDetails from '@/components/forms/user-details'
 import { db } from '@/lib/db'
 import { currentUser } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 type Props = {
@@ -10,11 +11,11 @@ type Props = {
 
 const SettingsPage = async ({ params }: Props) => {
     const authUser = await currentUser();
-    if (!authUser) return null;
+    if (!authUser) return redirect('/sign-in');
     const userDetails = await db.user.findUnique({ where: { email: authUser.emailAddresses[0].emailAddress } });
-    if (!userDetails) return null;
+    if (!userDetails) return redirect('/agency');
     const agency = await db.agency.findUnique({ where: { id: params.agencyId }, include: { SubAccount: true } });
-    if (!agency) return null;
+    if (!agency) return redirect('/agency');
     const subAccounts = agency.SubAccount;
     return (
         <div className='flex lg:!flex-row flex-col gap-4'>
@@ -24,4 +25,4 @@ const SettingsPage = async ({ params }: Props) => {
     )
 }
 
-export default SettingsPage
+export default SettingsPage;

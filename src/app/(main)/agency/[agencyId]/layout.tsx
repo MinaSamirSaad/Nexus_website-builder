@@ -12,7 +12,7 @@ type Props = {
     params: { agencyId: string; };
 }
 
-export default async function layout({ children, params }: Props) {
+export default async function layout({ children }: Props) {
     const agencyId = await verifyAndAcceptInvitation();
     const user = await currentUser();
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { Agency } from '@prisma/client'
 import { useForm } from 'react-hook-form'
@@ -97,7 +98,7 @@ const AgencyDetails = ({ data }: Props) => {
 
     const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
         try {
-            let newUserData
+            // let newUserData
             let custId
             if (!data?.id) {
                 const bodyData = {
@@ -134,7 +135,7 @@ const AgencyDetails = ({ data }: Props) => {
                 custId = customerData.customerId
             }
 
-            newUserData = await initUser({ role: 'AGENCY_OWNER' })
+            const newUserData = await initUser({ role: 'AGENCY_OWNER' })
             if (!data?.customerId && !custId) return
 
             const response = await upsertAgency({
