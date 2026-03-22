@@ -556,17 +556,35 @@ export const upsertFunnel = async (
     funnel: z.infer<typeof CreateFunnelFormSchema> & { liveProducts: string },
     funnelId: string
 ) => {
-    const response = await db.funnel.upsert({
-        where: { id: funnelId },
-        update: funnel,
-        create: {
-            ...funnel,
-            id: funnelId || v4(),
-            subAccountId: subaccountId,
-        },
-    })
+    try {
+        const subDomainName = funnel.subDomainName || null
 
-    return response
+        // Check if the subdomain is already taken by another funnel
+        if (subDomainName) {
+            const existing = await db.funnel.findUnique({
+                where: { subDomainName }
+            })
+            if (existing && existing.id !== funnelId) {
+                return null
+            }
+        }
+
+        const response = await db.funnel.upsert({
+            where: { id: funnelId },
+            update: { ...funnel, subDomainName },
+            create: {
+                ...funnel,
+                subDomainName,
+                id: funnelId || v4(),
+                subAccountId: subaccountId,
+            },
+        })
+
+        return response
+    } catch (error) {
+        console.error('Error upserting funnel:', error)
+        return null
+    }
 }
 
 export const updateLanesOrder = async (lanes: Lane[]) => {

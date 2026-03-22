@@ -70,22 +70,26 @@ const FunnelForm: React.FC<CreateFunnelProps> = ({
       { ...values, liveProducts: defaultData?.liveProducts || '[]' },
       defaultData?.id || v4()
     )
+    
+    if (!response) {
+      toast({
+        variant: 'destructive',
+        title: 'Oppse!',
+        description: 'Could not save funnel details. Subdomain might be taken.',
+      })
+      return
+    }
+
     await saveActivityLogsNotification({
       agencyId: undefined,
       description: `Update funnel | ${response.name}`,
       subaccountId: subAccountId,
     })
-    if (response)
-      toast({
-        title: 'Success',
-        description: 'Saved funnel details',
-      })
-    else
-      toast({
-        variant: 'destructive',
-        title: 'Oppse!',
-        description: 'Could not save funnel details',
-      })
+    
+    toast({
+      title: 'Success',
+      description: 'Saved funnel details',
+    })
     setClose()
     router.refresh()
   }
