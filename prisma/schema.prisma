@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,6 +8,7 @@ datasource db {
   relationMode = "prisma"
 }
 
+/// Defines the security access level for a user across the platform
 enum Role {
   AGENCY_OWNER
   AGENCY_ADMIN
@@ -21,6 +16,7 @@ enum Role {
   SUBACCOUNT_GUEST
 }
 
+/// A comprehensive enum representing available icons (primarily used for dynamic sidebar menus)
 enum Icon {
   settings
   chart
@@ -54,6 +50,7 @@ enum Icon {
   clipboardIcon
 }
 
+/// The core identity model for anyone accessing the platform, be it an agency owner or subaccount guest
 model User {
   id           String         @id @default(uuid())
   name         String
@@ -71,6 +68,7 @@ model User {
   @@index([agencyId])
 }
 
+/// An intersection entity mapping which SubAccounts a given User is authorized to access
 model Permissions {
   id           String     @id @default(uuid())
   email        String
@@ -83,6 +81,7 @@ model Permissions {
   @@index([email])
 }
 
+/// The top-level tenant (your paying subscriber), typically a marketing company or digital agency
 model Agency {
   id               String                @id @default(uuid())
   connectAccountId String?               @default("")
@@ -109,6 +108,7 @@ model Agency {
   AddOns           AddOns[]
 }
 
+/// The child tenant belonging to an Agency (the Agency's clients), operating as an isolated workspace
 model SubAccount {
   id               String                    @id @default(uuid())
   connectAccountId String?                   @default("")
@@ -140,6 +140,7 @@ model SubAccount {
   @@index([agencyId])
 }
 
+/// Labels or categorizations created by a SubAccount to apply to CRM Tickets
 model Tag {
   id           String   @id @default(uuid())
   name         String
@@ -154,6 +155,7 @@ model Tag {
   @@index([subAccountId])
 }
 
+/// The overarching structure for the CRM, representing the entirety of a sales process
 model Pipeline {
   id           String     @id @default(uuid())
   name         String
@@ -166,6 +168,7 @@ model Pipeline {
   @@index([subAccountId])
 }
 
+/// A specific stage or column within a CRM Pipeline (e.g., 'Lead', 'Interested', 'Closed Won')
 model Lane {
   id         String   @id @default(uuid())
   name       String
@@ -179,6 +182,7 @@ model Lane {
   @@index([pipelineId])
 }
 
+/// An individual lead or deal moving through the Lanes of the CRM Pipeline
 model Ticket {
   id          String   @id @default(uuid())
   name        String
@@ -202,10 +206,12 @@ model Ticket {
   @@index([assignedUserId])
 }
 
+/// Identifiers for the events that can kick off an automated workflow
 enum TriggerTypes {
   CONTACT_FORM
 }
 
+/// The starting threshold or event that initiates a sequence of actions within an Automation
 model Trigger {
   id           String       @id @default(uuid())
   name         String
@@ -219,6 +225,7 @@ model Trigger {
   @@index([subAccountId])
 }
 
+/// A parent workflow entity containing a series of Actions executed conditionally
 model Automation {
   id                 String               @id @default(uuid())
   name               String
@@ -236,6 +243,7 @@ model Automation {
   @@index([subAccountId])
 }
 
+/// A tracking record representing a single execution or "run" of an Automation workflow
 model AutomationInstance {
   id           String     @id @default(uuid())
   createdAt    DateTime   @default(now())
@@ -247,10 +255,12 @@ model AutomationInstance {
   @@index([automationId])
 }
 
+/// Identifiers for the discrete functional tasks performed within an automation sequence
 enum ActionType {
   CREATE_CONTACT
 }
 
+/// An individual step or consequence that runs as part of an Automation
 model Action {
   id           String     @id @default(uuid())
   name         String
@@ -265,6 +275,7 @@ model Action {
   @@index([automationId])
 }
 
+/// An external lead, customer, or individual interacting with the business
 model Contact {
   id           String   @id @default(uuid())
   name         String
@@ -279,6 +290,7 @@ model Contact {
   @@index([subAccountId])
 }
 
+/// Represents images, documents, or files uploaded to isolated storage by a SubAccount
 model Media {
   id           String     @id @default(uuid())
   type         String?
@@ -292,6 +304,7 @@ model Media {
   @@index([subAccountId])
 }
 
+/// A sequenced collection of marketing web pages (Landing -> Sales -> Checkout)
 model Funnel {
   id            String       @id @default(uuid())
   name          String
@@ -310,6 +323,7 @@ model Funnel {
   @@index([subAccountId])
 }
 
+/// Custom CSS declarations injected down into the Funnel builder's elements
 model ClassName {
   id         String   @id @default(uuid())
   name       String
@@ -323,6 +337,7 @@ model ClassName {
   @@index([funnelId])
 }
 
+/// A solitary web page that serves as a specific step inside a larger Funnel
 model FunnelPage {
   id           String   @id @default(uuid())
   name         String
@@ -339,6 +354,7 @@ model FunnelPage {
   @@index([funnelId])
 }
 
+/// Navigation menu items configured individually for an Agency dashboard
 model AgencySidebarOption {
   id        String   @id @default(uuid())
   name      String   @default("Menu")
@@ -352,6 +368,7 @@ model AgencySidebarOption {
   @@index([agencyId])
 }
 
+/// Navigation menu items configured individually for a SubAccount dashboard
 model SubAccountSidebarOption {
   id           String      @id @default(uuid())
   name         String      @default("Menu")
@@ -365,12 +382,14 @@ model SubAccountSidebarOption {
   @@index([subAccountId])
 }
 
+/// Current state flags for invitations sent out to new users
 enum InvitationStatus {
   ACCEPTED
   REVOKED
   PENDING
 }
 
+/// A pending attempt to bring an external user into the Agency ecosystem
 model Invitation {
   id       String           @id @default(uuid())
   email    String           @unique
@@ -382,6 +401,7 @@ model Invitation {
   @@index([agencyId])
 }
 
+/// System or user-generated alerts surfaced inside the platform UI
 model Notification {
   id           String  @id @default(uuid())
   notification String
@@ -401,11 +421,13 @@ model Notification {
   @@index([userId])
 }
 
+/// Price IDs mapping to specific Stripe products (e.g., Starter vs Unlimited)
 enum Plan {
   price_1RkWj3DftpBp1rw3xqWEC35q
   price_1RkWj3DftpBp1rw3TVfEELpv
 }
 
+/// The primary Stripe subscription linking an Agency to your app's recurring billing
 model Subscription {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
@@ -425,6 +447,7 @@ model Subscription {
   @@index([customerId])
 }
 
+/// Individual recurring or one-time upsell feature purchases attached to an Agency
 model AddOns {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
