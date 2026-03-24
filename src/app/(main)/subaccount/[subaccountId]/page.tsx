@@ -1,8 +1,6 @@
 import React from 'react'
 
-type Props = {}
-
-const SubAccountIdPage = (props: Props) => {
+const SubAccountIdPage = () => {
     return (
         <div>SubAccountIdPage</div>
     )
